@@ -15,41 +15,24 @@
       flex-direction: column;
       align-items: center;
     }
-    h1 {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-    }
+    h1 { font-size: 3rem; margin-bottom: 1rem; }
     .selector-box {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      justify-content: center;
-      margin-bottom: 2rem;
+      display: flex; flex-wrap: wrap; gap: 1rem;
+      justify-content: center; margin-bottom: 2rem;
     }
     select {
-      padding: 0.5rem;
-      font-size: 1rem;
-      border-radius: 0.5rem;
-      border: 1px solid #ccc;
+      padding: 0.5rem; font-size: 1rem;
+      border-radius: 0.5rem; border: 1px solid #ccc;
     }
     #fretboard {
-      max-width: 100%;
-      width: 780px;
-      height: auto;
-      border: 1px solid #ccc;
-      border-radius: 8px;
+      max-width: 100%; width: 780px; height: auto;
+      border: 1px solid #ccc; border-radius: 8px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
     .placeholder {
-      width: 780px;
-      height: 180px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #fafafa;
-      border: 1px dashed #bbb;
-      border-radius: 8px;
-      color: #777;
+      width: 780px; height: 180px;
+      display: flex; align-items: center; justify-content: center;
+      background: #fafafa; border: 1px dashed #bbb; border-radius: 8px; color: #777;
     }
   </style>
 </head>
@@ -58,74 +41,65 @@
 
   <div class="selector-box">
     <select id="key-select" onchange="updateFretboard()">
-      <option>C</option><option>C#</option><option>D</option><option>D#</option>
-      <option>E</option><option>F</option><option>F#</option><option>G</option>
-      <option>G#</option><option>A</option><option>A#</option><option>B</option>
+      <option>C</option>
     </select>
 
     <select id="type-select" onchange="updateScaleOptions(); updateFretboard();">
       <option value="major">Major</option>
-      <option value="minor">Minor</option>
-      <option value="mode">Mode</option>
     </select>
 
-    <select id="scale-select" onchange="updateFretboard()">
-    </select>
+    <select id="scale-select" onchange="updateFretboard()"></select>
   </div>
 
   <div id="fretboard-container"></div>
 
-  <script>
-    const scaleSelect = document.getElementById('scale-select');
-    const fretboardContainer = document.getElementById('fretboard-container');
+<script>
+const scaleSelect = document.getElementById('scale-select');
+const fretboardContainer = document.getElementById('fretboard-container');
 
-    const scaleOptionsMap = {
-      major: ['Major', 'Pentatonic', 'Blues'],
-      minor: ['Natural Minor', 'Harmonic Minor', 'Melodic Minor', 'Pentatonic', 'Blues'],
-      mode:  ['Ionian', 'Dorian', 'Phrygian', 'Lydian', 'Mixolydian', 'Aeolian', 'Locrian']
-    };
+// スケールタイプごとの候補
+const scaleOptionsMap = {
+  major: ['Major','Pentatonic']
+};
 
-    const fretboardImageMap = {
-      'C-major-major': 'c_major_fretboard_all_6_strings_restored.png'
-    };
+// 画像マッピング（上下逆指板）
+const fretboardImageMap = {
+  'C-major-major': 'c_major_fretboard_reversed.png',
+  'C-major-pentatonic': 'c_pentatonic_fretboard_reversed.png'
+};
 
-    function updateScaleOptions() {
-      const type = document.getElementById('type-select').value;
-      const opts = scaleOptionsMap[type] || [];
-      scaleSelect.innerHTML = '';
-      opts.forEach(opt => {
-        const o = document.createElement('option');
-        o.text = opt;
-        o.value = opt.toLowerCase().replace(/ /g, '-');
-        scaleSelect.add(o);
-      });
-    }
+function updateScaleOptions() {
+  const type = document.getElementById('type-select').value;
+  const opts = scaleOptionsMap[type] || [];
+  scaleSelect.innerHTML = '';
+  opts.forEach(opt => {
+    const o = document.createElement('option');
+    o.text = opt;
+    o.value = opt.toLowerCase().replace(/ /g,'-');
+    scaleSelect.add(o);
+  });
+}
 
-    function updateFretboard() {
-      const key = document.getElementById('key-select').value;
-      const type = document.getElementById('type-select').value;
-      const scale = document.getElementById('scale-select').value;
-      const mapKey = `${key}-${type}-${scale}`;
-      const imgSrc = fretboardImageMap[mapKey];
+function updateFretboard(){
+  const key = document.getElementById('key-select').value;
+  const type = document.getElementById('type-select').value;
+  const scale = document.getElementById('scale-select').value;
+  const imgKey = `${key}-${type}-${scale}`;
+  const src = fretboardImageMap[imgKey];
+  fretboardContainer.innerHTML='';
+  if(src){
+    const img=document.createElement('img');
+    img.id='fretboard'; img.src=src; img.alt=imgKey;
+    fretboardContainer.appendChild(img);
+  }else{
+    const ph=document.createElement('div'); ph.className='placeholder';
+    ph.textContent='Image not available'; fretboardContainer.appendChild(ph);
+  }
+}
 
-      fretboardContainer.innerHTML = '';
-
-      if (imgSrc) {
-        const img = document.createElement('img');
-        img.id = 'fretboard';
-        img.src = imgSrc;
-        img.alt = `${key} ${scale} scale`;
-        fretboardContainer.appendChild(img);
-      } else {
-        const placeholder = document.createElement('div');
-        placeholder.className = 'placeholder';
-        placeholder.textContent = 'Image not available';
-        fretboardContainer.appendChild(placeholder);
-      }
-    }
-
-    updateScaleOptions();
-    updateFretboard();
-  </script>
+// 初期化
+updateScaleOptions();
+updateFretboard();
+</script>
 </body>
 </html>
