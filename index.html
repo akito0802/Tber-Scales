@@ -41,7 +41,7 @@
 
   <div class="selector-box">
     <select id="key-select" onchange="updateFretboard()">
-      <option>C</option>
+      <option>C</option><option>C#</option><option>D</option><option>D#</option><option>E</option><option>F</option><option>F#</option><option>G</option><option>G#</option><option>A</option><option>A#</option><option>B</option>
     </select>
 
     <select id="type-select" onchange="updateScaleOptions(); updateFretboard();">
@@ -65,9 +65,9 @@ const scaleOptionsMap = {
   church: ['Ionian','Dorian','Phrygian','Lydian','Mixolydian','Aeolian','Locrian']
 };
 
+// 自動で12キー分のマッピングを作成（major only）
 const fretboardImageMap = {
-  'C-major-major': 'c_major_fretboard_reversed.png',
-  'C-major-pentatonic': 'c_pentatonic_fretboard_reversed.png'
+  'C-major-major': 'C_major_fretboard_reversed.png','C#-major-major': 'C#_major_fretboard_reversed.png','D-major-major': 'D_major_fretboard_reversed.png','D#-major-major': 'D#_major_fretboard_reversed.png','E-major-major': 'E_major_fretboard_reversed.png','F-major-major': 'F_major_fretboard_reversed.png','F#-major-major': 'F#_major_fretboard_reversed.png','G-major-major': 'G_major_fretboard_reversed.png','G#-major-major': 'G#_major_fretboard_reversed.png','A-major-major': 'A_major_fretboard_reversed.png','A#-major-major': 'A#_major_fretboard_reversed.png','B-major-major': 'B_major_fretboard_reversed.png'
 };
 
 function updateScaleOptions() {
