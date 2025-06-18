@@ -46,6 +46,8 @@
 
     <select id="type-select" onchange="updateScaleOptions(); updateFretboard();">
       <option value="major">Major</option>
+      <option value="minor">Minor</option>
+      <option value="church">Church Mode</option>
     </select>
 
     <select id="scale-select" onchange="updateFretboard()"></select>
@@ -57,12 +59,12 @@
 const scaleSelect = document.getElementById('scale-select');
 const fretboardContainer = document.getElementById('fretboard-container');
 
-// スケールタイプごとの候補
 const scaleOptionsMap = {
-  major: ['Major','Pentatonic']
+  major: ['Major','Pentatonic'],
+  minor: ['Natural Minor','Harmonic Minor','Melodic Minor','Pentatonic','Blues'],
+  church: ['Ionian','Dorian','Phrygian','Lydian','Mixolydian','Aeolian','Locrian']
 };
 
-// 画像マッピング（上下逆指板）
 const fretboardImageMap = {
   'C-major-major': 'c_major_fretboard_reversed.png',
   'C-major-pentatonic': 'c_pentatonic_fretboard_reversed.png'
@@ -97,7 +99,6 @@ function updateFretboard(){
   }
 }
 
-// 初期化
 updateScaleOptions();
 updateFretboard();
 </script>
