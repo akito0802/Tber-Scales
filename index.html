@@ -49,31 +49,47 @@
         <option>G#</option><option>A</option><option>A#</option><option>B</option>
       </select>
 
-      <select id="type-select">
-        <option>Major</option>
-        <option>Minor</option>
-        <option>Mode</option>
+      <select id="type-select" onchange="updateScaleOptions()">
+        <option value="major">Major</option>
+        <option value="minor">Minor</option>
+        <option value="mode">Mode</option>
       </select>
 
       <select id="scale-select">
-        <option>Ionian</option>
-        <option>Dorian</option>
-        <option>Phrygian</option>
-        <option>Lydian</option>
-        <option>Mixolydian</option>
-        <option>Aeolian</option>
-        <option>Locrian</option>
+        <!-- この中身はJSで動的に切り替わる -->
       </select>
     </div>
 
     <svg viewBox="0 0 780 180" preserveAspectRatio="none">
       <rect x="0" y="0" width="780" height="180" fill="#f5f5dc" rx="8" />
-      <!-- Strings -->
-      <!-- Frets -->
-      <!-- Position dots -->
-      <!-- Root and scale notes -->
     </svg>
 
-    <p style="margin-top:2rem;">※ UIは仮機能です。選択はまだ指板に連動していません。</p>
+    <p style="margin-top:2rem;">※ スケール種別に応じて選択肢が切り替わります</p>
+
+    <script>
+      const scaleSelect = document.getElementById('scale-select');
+      const updateScaleOptions = () => {
+        const type = document.getElementById('type-select').value;
+        let options = [];
+        if (type === 'major') {
+          options = ['Major', 'Pentatonic', 'Blues'];
+        } else if (type === 'minor') {
+          options = ['Natural Minor', 'Harmonic Minor', 'Melodic Minor', 'Pentatonic', 'Blues'];
+        } else if (type === 'mode') {
+          options = ['Ionian', 'Dorian', 'Phrygian', 'Lydian', 'Mixolydian', 'Aeolian', 'Locrian'];
+        }
+
+        scaleSelect.innerHTML = '';
+        options.forEach(opt => {
+          const o = document.createElement('option');
+          o.text = opt;
+          o.value = opt.toLowerCase().replace(/ /g, '-');
+          scaleSelect.add(o);
+        });
+      };
+
+      // 初期表示
+      updateScaleOptions();
+    </script>
   </body>
 </html>
