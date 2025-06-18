@@ -9,15 +9,27 @@
         margin: 0;
         font-family: sans-serif;
         background-color: #ffffff;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
         padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
       }
       h1 {
         font-size: 3rem;
         margin-bottom: 1rem;
+      }
+      .selector-box {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+        margin-bottom: 2rem;
+      }
+      select {
+        padding: 0.5rem;
+        font-size: 1rem;
+        border-radius: 0.5rem;
+        border: 1px solid #ccc;
       }
       svg {
         max-width: 100%;
@@ -29,15 +41,39 @@
   </head>
   <body>
     <h1><span style="color:#12f7ff;">T</span><span style="color:#ff00e0;">b</span>er Scale</h1>
+
+    <div class="selector-box">
+      <select id="key-select">
+        <option>C</option><option>C#</option><option>D</option><option>D#</option>
+        <option>E</option><option>F</option><option>F#</option><option>G</option>
+        <option>G#</option><option>A</option><option>A#</option><option>B</option>
+      </select>
+
+      <select id="type-select">
+        <option>Major</option>
+        <option>Minor</option>
+        <option>Mode</option>
+      </select>
+
+      <select id="scale-select">
+        <option>Ionian</option>
+        <option>Dorian</option>
+        <option>Phrygian</option>
+        <option>Lydian</option>
+        <option>Mixolydian</option>
+        <option>Aeolian</option>
+        <option>Locrian</option>
+      </select>
+    </div>
+
     <svg viewBox="0 0 780 180" preserveAspectRatio="none">
       <rect x="0" y="0" width="780" height="180" fill="#f5f5dc" rx="8" />
       <!-- Strings -->
-      <!-- 6 horizontal lines -->
       <!-- Frets -->
-      <!-- 13 vertical lines -->
       <!-- Position dots -->
       <!-- Root and scale notes -->
     </svg>
-    <p style="margin-top:2rem;">（※これはGitHub Pagesで表示できるダミー指板です）</p>
+
+    <p style="margin-top:2rem;">※ UIは仮機能です。選択はまだ指板に連動していません。</p>
   </body>
 </html>
