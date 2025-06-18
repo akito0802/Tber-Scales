@@ -60,13 +60,36 @@ const scaleSelect = document.getElementById('scale-select');
 const fretboardContainer = document.getElementById('fretboard-container');
 
 const scaleOptionsMap = {
-  major: ['Major','Pentatonic'],
+  major: ['Major','Pentatonic','Blues'],
   minor: ['Natural Minor','Harmonic Minor','Melodic Minor','Pentatonic','Blues'],
   church: ['Ionian','Dorian','Phrygian','Lydian','Mixolydian','Aeolian','Locrian']
 };
 
 const fretboardImageMap = {
-  'C-major-major': 'C_major_fretboard_reversed.png','Csharp-major-major': 'Csharp_major_fretboard_reversed.png','D-major-major': 'D_major_fretboard_reversed.png','Dsharp-major-major': 'Dsharp_major_fretboard_reversed.png','E-major-major': 'E_major_fretboard_reversed.png','F-major-major': 'F_major_fretboard_reversed.png','Fsharp-major-major': 'Fsharp_major_fretboard_reversed.png','G-major-major': 'G_major_fretboard_reversed.png','Gsharp-major-major': 'Gsharp_major_fretboard_reversed.png','A-major-major': 'A_major_fretboard_reversed.png','Asharp-major-major': 'Asharp_major_fretboard_reversed.png','B-major-major': 'B_major_fretboard_reversed.png'
+  'C-major-major': 'C_major_fretboard_reversed.png',
+  'Csharp-major-major': 'Csharp_major_fretboard_reversed.png',
+  'D-major-major': 'D_major_fretboard_reversed.png',
+  'Dsharp-major-major': 'Dsharp_major_fretboard_reversed.png',
+  'E-major-major': 'E_major_fretboard_reversed.png',
+  'F-major-major': 'F_major_fretboard_reversed.png',
+  'Fsharp-major-major': 'Fsharp_major_fretboard_reversed.png',
+  'G-major-major': 'G_major_fretboard_reversed.png',
+  'Gsharp-major-major': 'Gsharp_major_fretboard_reversed.png',
+  'A-major-major': 'A_major_fretboard_reversed.png',
+  'Asharp-major-major': 'Asharp_major_fretboard_reversed.png',
+  'B-major-major': 'B_major_fretboard_reversed.png',
+  'C-major-pentatonic': 'C_major_pentatonic_fretboard_reversed.png',
+  'Csharp-major-pentatonic': 'Csharp_major_pentatonic_fretboard_reversed.png',
+  'D-major-pentatonic': 'D_major_pentatonic_fretboard_reversed.png',
+  'Dsharp-major-pentatonic': 'Dsharp_major_pentatonic_fretboard_reversed.png',
+  'E-major-pentatonic': 'E_major_pentatonic_fretboard_reversed.png',
+  'F-major-pentatonic': 'F_major_pentatonic_fretboard_reversed.png',
+  'Fsharp-major-pentatonic': 'Fsharp_major_pentatonic_fretboard_reversed.png',
+  'G-major-pentatonic': 'G_major_pentatonic_fretboard_reversed.png',
+  'Gsharp-major-pentatonic': 'Gsharp_major_pentatonic_fretboard_reversed.png',
+  'A-major-pentatonic': 'A_major_pentatonic_fretboard_reversed.png',
+  'Asharp-major-pentatonic': 'Asharp_major_pentatonic_fretboard_reversed.png',
+  'B-major-pentatonic': 'B_major_pentatonic_fretboard_reversed.png'
 };
 
 function updateScaleOptions() {
