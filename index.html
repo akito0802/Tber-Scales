@@ -1,42 +1,95 @@
-
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cメジャースケール</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: sans-serif;
-      background-color: #f0f0f0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-    }
-    h1 {
-      color: #333;
-      margin-bottom: 20px;
-    }
-    .fretboard {
-      max-width: 100%;
-      width: 100%;
-      text-align: center;
-    }
-    .fretboard img {
-      max-width: 100%;
-      height: auto;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      border-radius: 8px;
-    }
-  </style>
-</head>
-<body>
-  <h1>Cメジャースケール</h1>
-  <div class="fretboard">
-    <img src="c_major_fretboard_all_6_strings_restored.png" alt="Cメジャースケール指板">
-  </div>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tber Scale Viewer</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: sans-serif;
+        background-color: #ffffff;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+      .selector-box {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+        margin-bottom: 2rem;
+      }
+      select {
+        padding: 0.5rem;
+        font-size: 1rem;
+        border-radius: 0.5rem;
+        border: 1px solid #ccc;
+      }
+      svg {
+        max-width: 100%;
+        height: auto;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1><span style="color:#12f7ff;">T</span><span style="color:#ff00e0;">b</span>er Scale</h1>
+
+    <div class="selector-box">
+      <select id="key-select">
+        <option>C</option><option>C#</option><option>D</option><option>D#</option>
+        <option>E</option><option>F</option><option>F#</option><option>G</option>
+        <option>G#</option><option>A</option><option>A#</option><option>B</option>
+      </select>
+
+      <select id="type-select" onchange="updateScaleOptions()">
+        <option value="major">Major</option>
+        <option value="minor">Minor</option>
+        <option value="mode">Mode</option>
+      </select>
+
+      <select id="scale-select">
+        <!-- この中身はJSで動的に切り替わる -->
+      </select>
+    </div>
+
+    <svg viewBox="0 0 780 180" preserveAspectRatio="none">
+      <rect x="0" y="0" width="780" height="180" fill="#f5f5dc" rx="8" />
+    </svg>
+
+    <p style="margin-top:2rem;">※ スケール種別に応じて選択肢が切り替わります</p>
+
+    <script>
+      const scaleSelect = document.getElementById('scale-select');
+      const updateScaleOptions = () => {
+        const type = document.getElementById('type-select').value;
+        let options = [];
+        if (type === 'major') {
+          options = ['Major', 'Pentatonic', 'Blues'];
+        } else if (type === 'minor') {
+          options = ['Natural Minor', 'Harmonic Minor', 'Melodic Minor', 'Pentatonic', 'Blues'];
+        } else if (type === 'mode') {
+          options = ['Ionian', 'Dorian', 'Phrygian', 'Lydian', 'Mixolydian', 'Aeolian', 'Locrian'];
+        }
+
+        scaleSelect.innerHTML = '';
+        options.forEach(opt => {
+          const o = document.createElement('option');
+          o.text = opt;
+          o.value = opt.toLowerCase().replace(/ /g, '-');
+          scaleSelect.add(o);
+        });
+      };
+
+      // 初期表示
+      updateScaleOptions();
+    </script>
+  </body>
 </html>
