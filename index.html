@@ -2,187 +2,24 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tber Scale Viewer</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: sans-serif;
-      background-color: #ffffff;
-      padding: 2rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    h1 { font-size: 3rem; margin-bottom: 1rem; }
-    .selector-box {
-      display: flex; flex-wrap: wrap; gap: 1rem;
-      justify-content: center; margin-bottom: 2rem;
-    }
-    select {
-      padding: 0.5rem; font-size: 1rem;
-      border-radius: 0.5rem; border: 1px solid #ccc;
-    }
-    #fretboard {
-      max-width: 100%; width: 780px; height: auto;
-      border: 1px solid #ccc; border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    .placeholder {
-      width: 780px; height: 180px;
-      display: flex; align-items: center; justify-content: center;
-      background: #fafafa; border: 1px dashed #bbb; border-radius: 8px; color: #777;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Cミクソリディアン</title>
+    <style>
+        body {
+            background-color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 30px;
+        }
+    </style>
 </head>
 <body>
-  <h1><span style="color:#12f7ff;">T</span><span style="color:#ff00e0;">b</span>er Scale</h1>
-
-  <div class="selector-box">
-    <select id="key-select" onchange="updateFretboard()">
-      <option value="C">C</option><option value="Csharp">C#</option><option value="D">D</option><option value="Dsharp">D#</option><option value="E">E</option><option value="F">F</option><option value="Fsharp">F#</option><option value="G">G</option><option value="Gsharp">G#</option><option value="A">A</option><option value="Asharp">A#</option><option value="B">B</option>
-    </select>
-
-    <select id="type-select" onchange="updateScaleOptions(); updateFretboard();">
-      <option value="major">Major</option>
-      <option value="minor">Minor</option>
-      <option value="church">Church Mode</option>
-    </select>
-
-    <select id="scale-select" onchange="updateFretboard()"></select>
-  </div>
-
-  <div id="fretboard-container"></div>
-
-<script>
-const scaleSelect = document.getElementById('scale-select');
-const fretboardContainer = document.getElementById('fretboard-container');
-
-const scaleOptionsMap = {
-  major: ['Major','Pentatonic','Blues'],
-  minor: ['Natural Minor','Harmonic Minor','Melodic Minor','Pentatonic','Blues'],
-  church: ['Ionian','Dorian','Phrygian','Lydian','Mixolydian','Aeolian','Locrian']
-};
-
-const fretboardImageMap = {
-  'C-church-phrygian': 'C_phrygian_fretboard_reversed.png',
-  'Csharp-church-phrygian': 'Csharp_phrygian_fretboard_reversed.png',
-  'D-church-phrygian': 'D_phrygian_fretboard_reversed.png',
-  'Dsharp-church-phrygian': 'Dsharp_phrygian_fretboard_reversed.png',
-  'E-church-phrygian': 'E_phrygian_fretboard_reversed.png',
-  'F-church-phrygian': 'F_phrygian_fretboard_reversed.png',
-  'Fsharp-church-phrygian': 'Fsharp_phrygian_fretboard_reversed.png',
-  'G-church-phrygian': 'G_phrygian_fretboard_reversed.png',
-  'Gsharp-church-phrygian': 'Gsharp_phrygian_fretboard_reversed.png',
-  'A-church-phrygian': 'A_phrygian_fretboard_reversed.png',
-  'Asharp-church-phrygian': 'Asharp_phrygian_fretboard_reversed.png',
-  'B-church-phrygian': 'B_phrygian_fretboard_reversed.png',
-  'C-church-lydian': 'C_lydian_fretboard_reversed.png',
-  'Csharp-church-lydian': 'Csharp_lydian_fretboard_reversed.png',
-  'D-church-lydian': 'D_lydian_fretboard_reversed.png',
-  'Dsharp-church-lydian': 'Dsharp_lydian_fretboard_reversed.png',
-  'E-church-lydian': 'E_lydian_fretboard_reversed.png',
-  'F-church-lydian': 'F_lydian_fretboard_reversed.png',
-  'Fsharp-church-lydian': 'Fsharp_lydian_fretboard_reversed.png',
-  'G-church-lydian': 'G_lydian_fretboard_reversed.png',
-  'Gsharp-church-lydian': 'Gsharp_lydian_fretboard_reversed.png',
-  'A-church-lydian': 'A_lydian_fretboard_reversed.png',
-  'Asharp-church-lydian': 'Asharp_lydian_fretboard_reversed.png',
-  'B-church-lydian': 'B_lydian_fretboard_reversed.png',
-  'C-church-dorian': 'C_dorian_fretboard_reversed.png',
-  'Csharp-church-dorian': 'Csharp_dorian_fretboard_reversed.png',
-  'D-church-dorian': 'D_dorian_fretboard_reversed.png',
-  'Dsharp-church-dorian': 'Dsharp_dorian_fretboard_reversed.png',
-  'E-church-dorian': 'E_dorian_fretboard_reversed.png',
-  'F-church-dorian': 'F_dorian_fretboard_reversed.png',
-  'Fsharp-church-dorian': 'Fsharp_dorian_fretboard_reversed.png',
-  'G-church-dorian': 'G_dorian_fretboard_reversed.png',
-  'Gsharp-church-dorian': 'Gsharp_dorian_fretboard_reversed.png',
-  'A-church-dorian': 'A_dorian_fretboard_reversed.png',
-  'Asharp-church-dorian': 'Asharp_dorian_fretboard_reversed.png',
-  'B-church-dorian': 'B_dorian_fretboard_reversed.png',
-  'C-church-ionian': 'C_major_fretboard_reversed.png',
-  'Csharp-church-ionian': 'Csharp_major_fretboard_reversed.png',
-  'D-church-ionian': 'D_major_fretboard_reversed.png',
-  'Dsharp-church-ionian': 'Dsharp_major_fretboard_reversed.png',
-  'E-church-ionian': 'E_major_fretboard_reversed.png',
-  'F-church-ionian': 'F_major_fretboard_reversed.png',
-  'Fsharp-church-ionian': 'Fsharp_major_fretboard_reversed.png',
-  'G-church-ionian': 'G_major_fretboard_reversed.png',
-  'Gsharp-church-ionian': 'Gsharp_major_fretboard_reversed.png',
-  'A-church-ionian': 'A_major_fretboard_reversed.png',
-  'Asharp-church-ionian': 'Asharp_major_fretboard_reversed.png',
-  'B-church-ionian': 'B_major_fretboard_reversed.png',
-  'C-major-major': 'C_major_fretboard_reversed.png',
-  'Csharp-major-major': 'Csharp_major_fretboard_reversed.png',
-  'D-major-major': 'D_major_fretboard_reversed.png',
-  'Dsharp-major-major': 'Dsharp_major_fretboard_reversed.png',
-  'E-major-major': 'E_major_fretboard_reversed.png',
-  'F-major-major': 'F_major_fretboard_reversed.png',
-  'Fsharp-major-major': 'Fsharp_major_fretboard_reversed.png',
-  'G-major-major': 'G_major_fretboard_reversed.png',
-  'Gsharp-major-major': 'Gsharp_major_fretboard_reversed.png',
-  'A-major-major': 'A_major_fretboard_reversed.png',
-  'Asharp-major-major': 'Asharp_major_fretboard_reversed.png',
-  'B-major-major': 'B_major_fretboard_reversed.png',
-  'C-major-pentatonic': 'C_major_pentatonic_fretboard_reversed.png',
-  'Csharp-major-pentatonic': 'Csharp_major_pentatonic_fretboard_reversed.png',
-  'D-major-pentatonic': 'D_major_pentatonic_fretboard_reversed.png',
-  'Dsharp-major-pentatonic': 'Dsharp_major_pentatonic_fretboard_reversed.png',
-  'E-major-pentatonic': 'E_major_pentatonic_fretboard_reversed.png',
-  'F-major-pentatonic': 'F_major_pentatonic_fretboard_reversed.png',
-  'Fsharp-major-pentatonic': 'Fsharp_major_pentatonic_fretboard_reversed.png',
-  'G-major-pentatonic': 'G_major_pentatonic_fretboard_reversed.png',
-  'Gsharp-major-pentatonic': 'Gsharp_major_pentatonic_fretboard_reversed.png',
-  'A-major-pentatonic': 'A_major_pentatonic_fretboard_reversed.png',
-  'Asharp-major-pentatonic': 'Asharp_major_pentatonic_fretboard_reversed.png',
-  'B-major-pentatonic': 'B_major_pentatonic_fretboard_reversed.png',
-  'C-major-blues': 'C_major_blues_fretboard_reversed.png',
-  'Csharp-major-blues': 'Csharp_major_blues_fretboard_reversed.png',
-  'D-major-blues': 'D_major_blues_fretboard_reversed.png',
-  'Dsharp-major-blues': 'Dsharp_major_blues_fretboard_reversed.png',
-  'E-major-blues': 'E_major_blues_fretboard_reversed.png',
-  'F-major-blues': 'F_major_blues_fretboard_reversed.png',
-  'Fsharp-major-blues': 'Fsharp_major_blues_fretboard_reversed.png',
-  'G-major-blues': 'G_major_blues_fretboard_reversed.png',
-  'Gsharp-major-blues': 'Gsharp_major_blues_fretboard_reversed.png',
-  'A-major-blues': 'A_major_blues_fretboard_reversed.png',
-  'Asharp-major-blues': 'Asharp_major_blues_fretboard_reversed.png',
-  'B-major-blues': 'B_major_blues_fretboard_reversed.png'
-};
-
-function updateScaleOptions() {
-  const type = document.getElementById('type-select').value;
-  const opts = scaleOptionsMap[type] || [];
-  scaleSelect.innerHTML = '';
-  opts.forEach(opt => {
-    const o = document.createElement('option');
-    o.text = opt;
-    o.value = opt.toLowerCase().replace(/ /g,'-');
-    scaleSelect.add(o);
-  });
-}
-
-function updateFretboard(){
-  const key = document.getElementById('key-select').value;
-  const type = document.getElementById('type-select').value;
-  const scale = document.getElementById('scale-select').value;
-  const imgKey = `${key}-${type}-${scale}`;
-  const src = fretboardImageMap[imgKey];
-  fretboardContainer.innerHTML='';
-  if(src){
-    const img=document.createElement('img');
-    img.id='fretboard'; img.src=src; img.alt=imgKey;
-    fretboardContainer.appendChild(img);
-  }else{
-    const ph=document.createElement('div'); ph.className='placeholder';
-    ph.textContent='Image not available'; fretboardContainer.appendChild(ph);
-  }
-}
-
-updateScaleOptions();
-updateFretboard();
-</script>
+    <h1>Cミクソリディアン指板図</h1>
+    <img src="C_mixolydian_centered.png" alt="Cミクソリディアン指板図">
 </body>
 </html>
