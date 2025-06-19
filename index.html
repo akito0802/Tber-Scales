@@ -60,11 +60,13 @@ const scaleSelect = document.getElementById('scale-select');
 const fretboardContainer = document.getElementById('fretboard-container');
 
 
+
 const scaleOptionsMap = {
-  major: ['major', 'pentatonic', 'blues'],
-  minor: ['natural_minor', 'harmonic_minor', 'melodic_minor', 'pentatonic', 'blues'],
-  church: ['ionian', 'dorian', 'phrygian', 'lydian', 'mixolydian', 'aeolian', 'locrian']
+  major: ['Major', 'Pentatonic', 'Blues'],
+  minor: ['Natural Minor', 'Harmonic Minor', 'Melodic Minor', 'Pentatonic', 'Blues'],
+  church: ['Ionian', 'Dorian', 'Phrygian', 'Lydian', 'Mixolydian', 'Aeolian', 'Locrian']
 };
+
 
 
 const fretboardImageMap = {
@@ -151,7 +153,7 @@ const fretboardImageMap = {
   'Gsharp-major-blues': 'Gsharp_major_blues_fretboard_reversed.png',
   'A-major-blues': 'A_major_blues_fretboard_reversed.png',
   'Asharp-major-blues': 'Asharp_major_blues_fretboard_reversed.png',
-  'B-major-blues': 'B_major_blues_fretboard_reversed.png'
+  'B-major-blues': 'B_major_blues_fretboard_reversed.png',
 
   'C-church-mixolydian': 'C_mixolydian_fretboard_reversed.png',
   'Csharp-church-mixolydian': 'Csharp_mixolydian_fretboard_reversed.png',
@@ -171,11 +173,16 @@ function updateScaleOptions() {
   const type = document.getElementById('type-select').value;
   const opts = scaleOptionsMap[type] || [];
   scaleSelect.innerHTML = '';
+  // クリア後、スケール候補を追加
   opts.forEach(opt => {
     const o = document.createElement('option');
     o.text = opt;
     o.value = opt.toLowerCase().replace(/ /g,'-');
     scaleSelect.add(o);
+  });
+  // 最初の項目を選択状態に
+  if(scaleSelect.options.length) scaleSelect.selectedIndex = 0;
+}
   });
 }
 
